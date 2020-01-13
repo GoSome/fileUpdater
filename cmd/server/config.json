@@ -1,0 +1,16 @@
+{
+  "server_host": "127.0.0.1",
+  "server_port": "8080",
+  "updaters": [
+  {
+    "name": "test",
+    "type": "command",
+    "file_path": "config.json"
+  },
+    {
+      "name": "test2",
+      "type": "command",
+      "file_path": "/Users/skipper/home/GOGO/gomod/fileUpdater/cmd/server/main.go"
+    }
+  ]
+}

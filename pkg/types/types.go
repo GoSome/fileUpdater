@@ -7,27 +7,14 @@
 */
 package types
 
+import (
+	"io"
+)
 
-type Updater struct {
-	FilePath string
-	PostUpdateHook []Hook
-	PreUpdateHook []Hook
+type Updater interface {
+	GetFileContent()(io.Reader, error)
 }
 
-func (u Updater)GetFileContent()(content []byte,err error)  {
-
-	return nil, nil
-}
-func (u Updater)UpdateFile(date []byte) error  {
-	return nil
-}
-
-func (u Updater)execPreHook()  {
-
-}
-func (u Updater)execPostHook()  {
-
-}
 
 
 type Hook interface {
@@ -35,10 +22,10 @@ type Hook interface {
 }
 
 type CommandHook struct {
-	Commands []string
-	Mode     string
+	Commands []string `json:"commands"`
+	Mode     string   `json:"mode"`
 }
 
-func (c CommandHook)Do() error {
+func (c CommandHook) Do() error {
 	return nil
 }
