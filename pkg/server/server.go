@@ -39,7 +39,8 @@ func Run() {
 	fmt.Println(Configs)
 	app := gin.Default()
 	app.GET("/updates", GetUpdaters)
-	app.POST("/content",GetContent)
+	app.POST("/content", GetContent)
+	app.POST("/update", UpdateFile)
 
 	log.Fatal(app.Run(Configs.ServerHost + ":" + Configs.ServerPort))
 }

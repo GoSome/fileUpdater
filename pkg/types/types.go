@@ -12,10 +12,8 @@ import (
 )
 
 type Updater interface {
-	GetFileContent()(io.Reader, error)
+	GetFileContent() (io.Reader, error)
 }
-
-
 
 type Hook interface {
 	Do() error
