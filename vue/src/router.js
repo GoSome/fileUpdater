@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Layout from './components/Layout.vue'
 import UpdaterView from './components/UpdaterView.vue'
+import UpdaterEdit from './components/UpdaterEdit.vue'
 import Dashboard from './components/Dashboard.vue'
 
 Vue.use(Router)
@@ -28,7 +29,7 @@ export default new Router({
           name: 'dashboard',
           component: Dashboard,
           meta: {
-            title: '首页',
+            title: 'Dashboard',
           },
         },
         {
@@ -39,13 +40,20 @@ export default new Router({
             title: 'Updater',
           },
         },
+        {
+          path: '/updater/edit',
+          name: 'updaterEdit',
+          component: UpdaterEdit,
+          meta: {
+            title: 'Edit',
+          },
+        },
       ],
     },
     {
       path: '/api*',
       component: () => import('./components/RenderedByBackendPage.vue'),
-      meta: {
-      }
+      meta: {}
     },
     {
       path: '*',

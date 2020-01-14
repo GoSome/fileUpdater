@@ -1,10 +1,10 @@
 <template>
-  <div class="p-5">
+  <div class="">
     <p>Updater {{ $route.query.name }}</p>
     <template v-if="updater">
       <p>name: {{ updater.name }}</p>
       <p>path: {{ updater.path }}</p>
-      <b-button>Edit</b-button>
+      <b-button variant="primary" @click="$router.push({name: 'updaterEdit', query: {name: $route.query.name}})">Edit</b-button>
     </template>
   </div>
 </template>

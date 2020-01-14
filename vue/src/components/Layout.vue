@@ -24,7 +24,7 @@
 
     <div id="content-wrapper" class="d-flex flex-column">
       <div id="content">
-        <router-view class="container-fluid"/>
+        <router-view class="container-fluid py-5 px-3"/>
       </div>
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
