@@ -4,7 +4,10 @@
     <template v-if="updater">
       <p>name: {{ updater.name }}</p>
       <p>path: {{ updater.path }}</p>
-      <b-button variant="primary" @click="$router.push({name: 'updaterEdit', query: {name: $route.query.name}})">Edit</b-button>
+      <b-button variant="primary"
+                @click="$router.push({name: 'updaterEdit', query: {name: $route.query.name}})">
+        Edit
+      </b-button>
     </template>
   </div>
 </template>
@@ -16,13 +19,28 @@ export default {
       updater: null,
     }
   },
+  computed: {
+    name() {
+      return this.$route.query.name
+    },
+  },
+  watch: {
+    name() {
+      this.refresh() // vue won't call `created` when routing in same route (only query changed)
+    }
+  },
   created() {
-    this.$http.get('/api/updater?name=' + this.$route.query.name).then(r => {
-      this.updater = r.data
-    }, r => {
-      console.log(r)
-      alert('Networking error')
-    })
+    this.refresh()
+  },
+  methods: {
+    refresh() {
+      this.$http.get('/api/updater?name=' + this.$route.query.name).then(r => {
+        this.updater = r.data
+      }, r => {
+        console.log(r)
+        alert('Networking error')
+      })
+    }
   }
 }
 </script>
