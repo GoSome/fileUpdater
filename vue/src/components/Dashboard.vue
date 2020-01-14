@@ -1,6 +1,6 @@
 <template>
-  <div>
-    Hi
+  <div class="p-5">
+    Select updater from left.
   </div>
 </template>
 

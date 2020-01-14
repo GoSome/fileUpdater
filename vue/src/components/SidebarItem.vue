@@ -1,6 +1,6 @@
 <template>
   <li class="nav-item">
-    <router-link class="nav-link" :to="{name: to}">
+    <router-link class="nav-link" :to="to">
       <i :class="'fas fa-fw '+ faIcon"></i>
       <span>{{ text }}</span></router-link>
   </li>
@@ -10,7 +10,7 @@
 export default {
   props: {
     to: {
-      type: String,
+      type: Object,
     },
     faIcon: {
       type: String,

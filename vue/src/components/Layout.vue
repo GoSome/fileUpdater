@@ -3,18 +3,22 @@
   <div>
 
     <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+        id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <router-link class="sidebar-brand d-flex align-items-center justify-content-center" :to="{name: 'dashboard'}">
-        <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-laugh-wink"></i></div>
+      <router-link class="sidebar-brand d-flex align-items-center justify-content-center"
+                   :to="{name: 'dashboard'}">
+        <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-laugh-wink"></i>
+        </div>
         <div class="sidebar-brand-text mx-3">FileUpdater</div>
       </router-link>
 
       <!-- Divider -->
       <hr class="sidebar-divider my-0">
 
-      <sidebar-item to="dashboard" fa-icon="fa-tachometer-alt" text="控制台"/>
+      <sidebar-item v-for="updater in updaters" :key="updater.name"
+                    :to="{name: 'updater', query: { name: updater.name } }" fa-icon="fa-file" :text="updater.name"/>
     </ul>
     <!-- End of Sidebar -->
 
@@ -43,7 +47,17 @@ export default {
   },
   data() {
     return {
+      updaters: [],
     }
   },
+  created() {
+    this.$http.get('/api/updaters').then(r => {
+      this.updaters = r.data
+    }, r => {
+      console.log(r)
+      alert('Networking error')
+    })
+    this.updaters = [{'name': 'a', 'path': 'b'}]
+  }
 }
 </script>

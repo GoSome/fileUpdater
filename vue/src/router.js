@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Layout from './components/Layout.vue'
+import UpdaterView from './components/UpdaterView.vue'
 import Dashboard from './components/Dashboard.vue'
 
 Vue.use(Router)
@@ -27,8 +28,15 @@ export default new Router({
           name: 'dashboard',
           component: Dashboard,
           meta: {
-            auth: true,
             title: '首页',
+          },
+        },
+        {
+          path: '/updater',
+          name: 'updater',
+          component: UpdaterView,
+          meta: {
+            title: 'Updater',
           },
         },
       ],
@@ -37,14 +45,12 @@ export default new Router({
       path: '/api*',
       component: () => import('./components/RenderedByBackendPage.vue'),
       meta: {
-        auth: true
       }
     },
     {
       path: '*',
       component: () => import('./components/error/404.vue'),
       meta: {
-        auth: true,
         title: '页面未找到',
       },
     },
