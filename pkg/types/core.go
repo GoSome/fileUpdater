@@ -19,7 +19,7 @@ type ServerConfigs struct {
 	IncludeSelf  bool          `json:"include_self"`
 }
 
-func (s ServerConfigs) GetUpdatersByName(name string) *FileUpdater {
+func (s ServerConfigs) GetUpdaterByName(name string) *FileUpdater {
 	for k, v := range s.FileUpdaters {
 		if v.Name == name {
 			return &s.FileUpdaters[k]
@@ -70,7 +70,7 @@ func (u FileUpdater) UpdateFile(date io.Reader) error {
 	if err != nil {
 		return errors.New("open file failed")
 	}
-	_,err = io.Copy(file, date)
+	_, err = io.Copy(file, date)
 	file.Close()
 	// when write failed,will auto restore,when restore failed,something bad happen
 	if err != nil {

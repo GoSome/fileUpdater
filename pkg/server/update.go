@@ -7,7 +7,7 @@ import (
 
 func UpdateFile(c *gin.Context) {
 	name := c.PostForm("name")
-	updaters := Configs.GetUpdatersByName(name)
+	updaters := Configs.GetUpdaterByName(name)
 	if updaters != nil {
 		mpf, err := c.FormFile("file")
 		if err != nil {

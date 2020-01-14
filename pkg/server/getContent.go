@@ -14,13 +14,13 @@ import (
 
 func GetContent(c *gin.Context) {
 
-	name:= c.Query("name")
-	if name == ""  {
+	name := c.Query("name")
+	if name == "" {
 		// todo
-		c.String(200,"nothing i found")
+		c.String(200, "nothing i found")
 		return
 	}
-	u := Configs.GetUpdatersByName(name)
+	u := Configs.GetUpdaterByName(name)
 	if u == nil {
 		c.String(400, "no idea")
 		return
