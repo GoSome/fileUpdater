@@ -25,31 +25,36 @@ var Configs types.ServerConfigs
 func Run() {
 	flag.StringVar(&configPath, "config", "config.json", "server config file path")
 	flag.Parse()
+
+	if _, err := os.Stat(configPath); os.IsNotExist(err) {
+		log.Fatalf("config file \"%s\" not exist", configPath)
+	}
+
 	configFile, err := os.Open(configPath)
 	if err != nil {
-		// todo
-		panic(err)
+		log.Fatalf("open config file \"%s\" failed", configPath)
 	}
-	if strings.HasSuffix(configPath,".json") {
+
+	if strings.HasSuffix(configPath, ".json") {
 		//
 		err = json.NewDecoder(configFile).Decode(&Configs)
 		if err != nil {
 			// todo
 			panic(err)
 		}
-	}else if strings.HasSuffix(configPath,".yaml"){
+	} else if strings.HasSuffix(configPath, ".yaml") {
 		log.Println("what")
 		err := yaml.NewDecoder(configFile).Decode(&Configs)
 		if err != nil {
 			// todo
-			log.Println("err: ",err.Error())
+			log.Println("err: ", err.Error())
 			panic(err)
 		}
-	}else {
+	} else {
 		panic("config file path must end with .json or .yaml")
 	}
 
-	fmt.Println("configs:",Configs)
+	fmt.Println("configs:", Configs)
 	app := gin.Default()
 	app.GET("/updates", GetUpdaters)
 	app.GET("/content", GetContent)
