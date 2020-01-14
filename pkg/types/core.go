@@ -13,9 +13,9 @@ import (
 // server configFiles struct
 
 type ServerConfigs struct {
-	ServerHost   string        `json:"server_host"`
-	ServerPort   string        `json:"server_port"`
-	FileUpdaters []FileUpdater `json:"updaters"`
+	ServerHost   string        `json:"server_host" yaml:"server_host"`
+	ServerPort   string        `json:"server_port" yaml:"server_port"`
+	FileUpdaters []FileUpdater `json:"updaters" yaml:"updaters"`
 	IncludeSelf  bool          `json:"include_self"`
 }
 
@@ -29,11 +29,11 @@ func (s ServerConfigs) GetUpdatersByName(name string) *FileUpdater {
 }
 
 type FileUpdater struct {
-	Name     string      `json:"name"`
-	Type     string      `json:"type"`
-	FilePath string      `json:"file_path"`
-	PreHook  CommandHook `json:"pre_hook"`
-	PostHook CommandHook `json:"post_hook"`
+	Name     string      `json:"name" yaml:"name"`
+	Type     string      `json:"type" yaml:"type"`
+	FilePath string      `json:"path" yaml:"path"`
+	PreHook  CommandHook `json:"pre_hook" yaml:"pre_hook"`
+	PostHook CommandHook `json:"post_hook" yaml:"post_hook"`
 }
 
 // should close reader

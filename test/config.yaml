@@ -1,0 +1,9 @@
+server_port: "8080"
+server_host: "127.0.0.1"
+updaters:
+  - name: test1
+    path: /tmp/test.txt
+    pre_hook:
+      commands:
+        - ls -lha
+  - name: test2

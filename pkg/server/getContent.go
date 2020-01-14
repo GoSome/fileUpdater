@@ -13,12 +13,14 @@ import (
 )
 
 func GetContent(c *gin.Context) {
-	var gcr Req
-	err := c.Bind(&gcr)
-	if err != nil {
+
+	name:= c.Query("name")
+	if name == ""  {
+		// todo
+		c.String(200,"nothing i found")
 		return
 	}
-	u := Configs.GetUpdatersByName(gcr.Name)
+	u := Configs.GetUpdatersByName(name)
 	if u == nil {
 		c.String(400, "no idea")
 		return
