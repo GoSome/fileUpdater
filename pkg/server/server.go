@@ -56,7 +56,7 @@ func Run() {
 
 	fmt.Println("configs:", Configs)
 	app := gin.Default()
-	app.GET("/api/updates", GetUpdaters)
+	app.GET("/api/updaters", GetUpdaters)
 	app.GET("/api/content", GetContent)
 	app.POST("/api/update", UpdateFile)
 
