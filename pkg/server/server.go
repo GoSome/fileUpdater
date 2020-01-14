@@ -56,9 +56,9 @@ func Run() {
 
 	fmt.Println("configs:", Configs)
 	app := gin.Default()
-	app.GET("/updates", GetUpdaters)
-	app.GET("/content", GetContent)
-	app.POST("/update", UpdateFile)
+	app.GET("/api/updates", GetUpdaters)
+	app.GET("/api/content", GetContent)
+	app.POST("/api/update", UpdateFile)
 
 	log.Fatal(app.Run(Configs.ServerHost + ":" + Configs.ServerPort))
 }
