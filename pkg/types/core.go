@@ -70,9 +70,8 @@ func (u FileUpdater) UpdateFile(date io.Reader) error {
 	if err != nil {
 		return errors.New("open file failed")
 	}
-	io.Copy(file, date)
+	_,err = io.Copy(file, date)
 	file.Close()
-
 	// when write failed,will auto restore,when restore failed,something bad happen
 	if err != nil {
 		// restore
@@ -87,9 +86,9 @@ func (u FileUpdater) UpdateFile(date io.Reader) error {
 	// pre hook
 	err = u.execPostHook()
 	if err != nil {
+		// todo
 		return err
 	}
-
 	return nil
 }
 
