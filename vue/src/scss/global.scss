@@ -1,0 +1,60 @@
+@import "base";
+@import "~bootstrap/scss/root";
+@import "~bootstrap/scss/print";
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/type";
+@import "~bootstrap/scss/images";
+@import "~bootstrap/scss/code";
+@import "~bootstrap/scss/grid";
+@import "~bootstrap/scss/tables";
+@import "~bootstrap/scss/forms";
+@import "~bootstrap/scss/buttons";
+@import "~bootstrap/scss/transitions";
+@import "~bootstrap/scss/dropdown";
+@import "~bootstrap/scss/button-group";
+@import "~bootstrap/scss/input-group";
+@import "~bootstrap/scss/custom-forms";
+@import "~bootstrap/scss/nav";
+@import "~bootstrap/scss/navbar";
+@import "~bootstrap/scss/card";
+@import "~bootstrap/scss/breadcrumb";
+@import "~bootstrap/scss/pagination";
+@import "~bootstrap/scss/badge";
+@import "~bootstrap/scss/jumbotron";
+@import "~bootstrap/scss/alert";
+@import "~bootstrap/scss/progress";
+@import "~bootstrap/scss/media";
+@import "~bootstrap/scss/list-group";
+@import "~bootstrap/scss/close";
+@import "~bootstrap/scss/modal";
+@import "~bootstrap/scss/tooltip";
+@import "~bootstrap/scss/popover";
+@import "~bootstrap/scss/carousel";
+@import "~bootstrap/scss/utilities";
+@import "~@fortawesome/fontawesome-free/scss/core";
+@import "~@fortawesome/fontawesome-free/scss/larger";
+@import "~@fortawesome/fontawesome-free/scss/fixed-width";
+@import "~@fortawesome/fontawesome-free/scss/list";
+@import "~@fortawesome/fontawesome-free/scss/bordered-pulled";
+@import "~@fortawesome/fontawesome-free/scss/animated";
+@import "~@fortawesome/fontawesome-free/scss/rotated-flipped";
+@import "~@fortawesome/fontawesome-free/scss/stacked";
+@import "~@fortawesome/fontawesome-free/scss/icons";
+@import "~@fortawesome/fontawesome-free/scss/screen-reader";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+// SBAdmin: Import Custom SB Admin 2 Mixins and Components
+@import "sb-admin/global.scss";
+@import "~startbootstrap-sb-admin-2/scss/utilities.scss";
+// SBAdmin: Custom Components
+@import "~startbootstrap-sb-admin-2/scss/dropdowns.scss";
+@import "~startbootstrap-sb-admin-2/scss/navs.scss";
+@import "~startbootstrap-sb-admin-2/scss/buttons.scss";
+@import "~startbootstrap-sb-admin-2/scss/cards.scss";
+@import "~startbootstrap-sb-admin-2/scss/charts.scss";
+@import "~startbootstrap-sb-admin-2/scss/login.scss";
+@import "~startbootstrap-sb-admin-2/scss/error.scss";
+@import "~startbootstrap-sb-admin-2/scss/footer.scss";
+
+.cursor-pointer {
+  cursor: pointer;
+}
