@@ -30,6 +30,7 @@ func Load(init bool) {
 		logFunc("open config file \"%s\" failed", Path)
 		return
 	}
+	defer configFile.Close()
 
 	deepCopy(&lastConfigs, &Configs)
 
