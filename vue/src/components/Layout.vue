@@ -18,7 +18,8 @@
       <hr class="sidebar-divider my-0">
 
       <sidebar-item v-for="updater in updaters" :key="updater.name"
-                    :to="{name: 'updater', query: { name: updater.name } }" fa-icon="fa-file" :text="updater.name"/>
+                    :to="{name: 'updater', query: { name: updater.name } }"
+                    fa-icon="fa-file" :text="updater.name"/>
     </ul>
     <!-- End of Sidebar -->
 

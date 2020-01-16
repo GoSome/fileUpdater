@@ -4,6 +4,12 @@
     <b-textarea v-model="content" rows="20" class="mb-2"/>
     <b-button variant="primary" @click="save">Save</b-button>
     <b-button class="ml-2" @click="cancel">Cancel</b-button>
+    <b-modal id="updated-modal"
+             ok-title="Got It"
+             hide-header
+             ok-only>
+      <p class="my-4">Update successfully!</p>
+    </b-modal>
   </div>
 </template>
 
@@ -24,6 +30,7 @@ export default {
         content: this.content
       }).then(() => {
         this.refresh()
+        this.$bvModal.show('updated-modal')
       }, r => {
         console.log(r)
         alert('Networking Error')
