@@ -15,8 +15,8 @@ func ListenSIGUSR2() {
 	go func() {
 		for {
 			<-s
+			log.Println("config file has been changed, attempt to reload...")
 			config.Load(false)
-			log.Println("config reloaded")
 		}
 	}()
 }

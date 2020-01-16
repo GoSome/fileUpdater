@@ -14,12 +14,6 @@ var Path string
 var Configs types.ServerConfigs
 var lastConfigs types.ServerConfigs
 
-func errHandle(err error, logFunc func(string, ...interface{})) {
-	if err != nil {
-		logFunc("%s", err)
-	}
-}
-
 // Load loads configs from config file.
 func Load(init bool) {
 	logFunc := log.Printf
@@ -40,12 +34,16 @@ func Load(init bool) {
 	switch path.Ext(Path) {
 	case ".json":
 		err = json.NewDecoder(configFile).Decode(&Configs)
-		errHandle(err, logFunc)
+		if err != nil {
+			logFunc("%s", err)
+		}
 	case ".yml":
 		fallthrough
 	case ".yaml":
 		err := yaml.NewDecoder(configFile).Decode(&Configs)
-		errHandle(err, logFunc)
+		if err != nil {
+			logFunc("%s", err)
+		}
 	default:
 		logFunc("config file path must end with .json or .yaml")
 	}
@@ -65,6 +63,7 @@ func Watch() {
 		select {
 		case ev := <-watcher.Events:
 			if ev.Op == fsnotify.Write {
+				log.Println("config file has been changed, attempt to reload...")
 				Load(false)
 			}
 		}
