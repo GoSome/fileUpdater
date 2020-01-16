@@ -13,6 +13,7 @@ import (
 var Path string
 var Configs types.ServerConfigs
 
+// Load loads configs from config file.
 func Load() {
 	if _, err := os.Stat(Path); os.IsNotExist(err) {
 		log.Fatalf("config file \"%s\" not exist", Path)
@@ -43,6 +44,7 @@ func Load() {
 	}
 }
 
+// Watch watches config file, configs will be reloaded when config file is changed.
 func Watch() {
 	watcher, err := fsnotify.NewWatcher()
 	if err != nil {
