@@ -1,7 +1,9 @@
 .idea
 
-config.json
-config.yaml
+test/config.json
+test/config.yaml
 
 temp
 tmp
+
+yarn.lock

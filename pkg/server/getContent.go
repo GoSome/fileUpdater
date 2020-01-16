@@ -8,6 +8,7 @@
 package server
 
 import (
+	"github.com/GoSome/fileUpdater/pkg/config"
 	"github.com/gin-gonic/gin"
 	"io"
 )
@@ -20,7 +21,7 @@ func GetContent(c *gin.Context) {
 		c.String(200, "nothing i found")
 		return
 	}
-	u := Configs.GetUpdaterByName(name)
+	u := config.Configs.GetUpdaterByName(name)
 	if u == nil {
 		c.String(400, "no idea")
 		return

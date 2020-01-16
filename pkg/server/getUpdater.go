@@ -9,6 +9,7 @@ package server
 
 import (
 	"encoding/json"
+	"github.com/GoSome/fileUpdater/pkg/config"
 	"github.com/gin-gonic/gin"
 )
 
@@ -19,7 +20,7 @@ func GetUpdater(c *gin.Context) {
 		return
 	}
 
-	u := Configs.GetUpdaterByName(name)
+	u := config.Configs.GetUpdaterByName(name)
 	if u == nil {
 		c.String(404, "Not Found")
 		return
