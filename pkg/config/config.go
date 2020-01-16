@@ -21,12 +21,14 @@ func Load(init bool) {
 		logFunc = log.Fatalf
 	}
 	if _, err := os.Stat(Path); os.IsNotExist(err) {
-		log.Fatalf("config file \"%s\" not exist", Path)
+		logFunc("config file \"%s\" not exist", Path)
+		return
 	}
 
 	configFile, err := os.Open(Path)
 	if err != nil {
 		logFunc("open config file \"%s\" failed", Path)
+		return
 	}
 
 	deepCopy(&lastConfigs, &Configs)
