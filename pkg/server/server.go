@@ -25,7 +25,7 @@ func Run() {
 	flag.StringVar(&config.Path, "config", "config.json", "server config file path")
 	flag.Parse()
 
-	config.Load()
+	config.Load(true)
 
 	fmt.Println("configs:", config.Configs)
 	app := gin.Default()

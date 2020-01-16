@@ -7,40 +7,47 @@ import (
 	"gopkg.in/yaml.v3"
 	"log"
 	"os"
-	"strings"
+	"path"
 )
 
 var Path string
 var Configs types.ServerConfigs
+var lastConfigs types.ServerConfigs
+
+func errHandle(err error, logFunc func(string, ...interface{})) {
+	if err != nil {
+		logFunc("%s", err)
+	}
+}
 
 // Load loads configs from config file.
-func Load() {
+func Load(init bool) {
+	logFunc := log.Printf
+	if init {
+		logFunc = log.Fatalf
+	}
 	if _, err := os.Stat(Path); os.IsNotExist(err) {
 		log.Fatalf("config file \"%s\" not exist", Path)
 	}
 
 	configFile, err := os.Open(Path)
 	if err != nil {
-		log.Fatalf("open config file \"%s\" failed", Path)
+		logFunc("open config file \"%s\" failed", Path)
 	}
 
-	if strings.HasSuffix(Path, ".json") {
-		//
+	deepCopy(&lastConfigs, &Configs)
+
+	switch path.Ext(Path) {
+	case ".json":
 		err = json.NewDecoder(configFile).Decode(&Configs)
-		if err != nil {
-			// todo
-			panic(err)
-		}
-	} else if strings.HasSuffix(Path, ".yaml") {
-		log.Println("what")
+		errHandle(err, logFunc)
+	case ".yml":
+		fallthrough
+	case ".yaml":
 		err := yaml.NewDecoder(configFile).Decode(&Configs)
-		if err != nil {
-			// todo
-			log.Println("err: ", err.Error())
-			panic(err)
-		}
-	} else {
-		panic("config file path must end with .json or .yaml")
+		errHandle(err, logFunc)
+	default:
+		logFunc("config file path must end with .json or .yaml")
 	}
 }
 
@@ -53,12 +60,12 @@ func Watch() {
 	defer watcher.Close()
 
 	watcher.Add(Path)
+
 	for {
 		select {
 		case ev := <-watcher.Events:
 			if ev.Op == fsnotify.Write {
-				Load()
-				log.Println("config reloaded")
+				Load(false)
 			}
 		}
 	}

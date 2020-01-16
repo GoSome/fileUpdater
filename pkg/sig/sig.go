@@ -15,7 +15,7 @@ func ListenSIGUSR2() {
 	go func() {
 		for {
 			<-s
-			config.Load()
+			config.Load(false)
 			log.Println("config reloaded")
 		}
 	}()
