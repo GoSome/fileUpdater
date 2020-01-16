@@ -1,8 +1,8 @@
 package sig
 
 import (
-	"fmt"
 	"github.com/GoSome/fileUpdater/pkg/config"
+	"log"
 	"os"
 	"os/signal"
 	"syscall"
@@ -16,7 +16,7 @@ func ListenSIGUSR2() {
 		for {
 			<-s
 			config.Load()
-			fmt.Println("config reloaded")
+			log.Println("config reloaded")
 		}
 	}()
 }

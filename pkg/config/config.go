@@ -8,12 +8,10 @@ import (
 	"log"
 	"os"
 	"strings"
-	"sync"
 )
 
 var Path string
 var Configs types.ServerConfigs
-var lock sync.Mutex
 
 func Load() {
 	if _, err := os.Stat(Path); os.IsNotExist(err) {
@@ -27,18 +25,14 @@ func Load() {
 
 	if strings.HasSuffix(Path, ".json") {
 		//
-		lock.Lock()
 		err = json.NewDecoder(configFile).Decode(&Configs)
-		lock.Unlock()
 		if err != nil {
 			// todo
 			panic(err)
 		}
 	} else if strings.HasSuffix(Path, ".yaml") {
 		log.Println("what")
-		lock.Lock()
 		err := yaml.NewDecoder(configFile).Decode(&Configs)
-		lock.Unlock()
 		if err != nil {
 			// todo
 			log.Println("err: ", err.Error())
@@ -50,11 +44,20 @@ func Load() {
 }
 
 func Watch() {
-	go func() {
-		watcher, err := fsnotify.NewWatcher()
-		if err != nil {
-			log.Fatal(err)
+	watcher, err := fsnotify.NewWatcher()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer watcher.Close()
+
+	watcher.Add(Path)
+	for {
+		select {
+		case ev := <-watcher.Events:
+			if ev.Op == fsnotify.Write {
+				Load()
+				log.Println("config reloaded")
+			}
 		}
-		defer watcher.Close()
-	}()
+	}
 }

@@ -20,6 +20,7 @@ import (
 func Run() {
 	fmt.Println("current pid: ", os.Getpid())
 	sig.ListenSIGUSR2()
+	go config.Watch()
 
 	flag.StringVar(&config.Path, "config", "config.json", "server config file path")
 	flag.Parse()
