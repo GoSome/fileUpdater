@@ -9,8 +9,14 @@ package server
 
 import (
 	"encoding/json"
+	"github.com/GoSome/fileUpdater/pkg/types"
 	"github.com/gin-gonic/gin"
 )
+
+type getUpdaterResponse struct {
+	Updater *types.FileUpdater `json:"updater"`
+	Content string             `json:"content"`
+}
 
 func GetUpdater(c *gin.Context) {
 	name := c.Query("name")
@@ -25,7 +31,18 @@ func GetUpdater(c *gin.Context) {
 		return
 	}
 
-	if err := json.NewEncoder(c.Writer).Encode(&u); err != nil {
+	content, err := u.GetFileContentAsString()
+	if err != nil {
+		c.String(400, err.Error())
+		return
+	}
+
+	response := getUpdaterResponse{
+		Updater: u,
+		Content: content,
+	}
+
+	if err := json.NewEncoder(c.Writer).Encode(&response); err != nil {
 		c.String(500, "Unknown error: %s", err)
 	}
 }

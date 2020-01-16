@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"io"
+	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
@@ -37,13 +38,24 @@ type FileUpdater struct {
 }
 
 // should close reader
-func (u FileUpdater) GetFileContent() (reader *os.File, err error) {
-	file, err := os.Open(u.FilePath)
+func (u FileUpdater) GetFile() (reader *os.File, err error) {
+	return os.Open(u.FilePath)
+}
+
+func (u FileUpdater) GetFileContent() ([]byte, error) {
+	file, err := u.GetFile()
 	if err != nil {
-		log.Println("what: ", err)
 		return nil, err
 	}
-	return file, nil
+	return ioutil.ReadAll(file)
+}
+
+func (u FileUpdater) GetFileContentAsString() (string, error) {
+	content, err := u.GetFileContent()
+	if err != nil {
+		return "", err
+	}
+	return string(content), nil
 }
 
 // when preHook Not nil should execute pre hook

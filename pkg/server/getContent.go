@@ -25,7 +25,7 @@ func GetContent(c *gin.Context) {
 		c.String(400, "no idea")
 		return
 	}
-	r, err := u.GetFileContent()
+	r, err := u.GetFile()
 	defer r.Close()
 	if err != nil {
 		c.String(400, "no idea")
