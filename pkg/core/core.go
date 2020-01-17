@@ -35,7 +35,6 @@ func (s ServerConfigs) GetUpdaterByName(name string) *FileUpdater {
 
 type FileUpdater struct {
 	Name     string      `json:"name" yaml:"name"`
-	Type     string      `json:"type" yaml:"type"`
 	FilePath string      `json:"path" yaml:"path"`
 	Backup   bool        `json:"backup" yaml:"backup"`
 	PreHook  CommandHook `json:"pre_hook" yaml:"pre_hook"`
@@ -67,41 +66,46 @@ func (u FileUpdater) GetFileContentAsString() (string, error) {
 // when preHook executed and exit not 0 return
 // copy origin file for backup and update file
 // when file update succeeded execute the post hook
+// pre->write->post
 func (u FileUpdater) UpdateFile(date io.Reader) error {
+	var err error
 
 	// pre hook
-	err := u.execPreHook()
+	err = u.execPreHook()
 	if err != nil {
 		return err
 	}
+
 	// Copy File for backup
 	// todo
+	var bfp string
 	if u.Backup {
-		bfp, err := BackupFile(u.FilePath)
+		bfp, err = BackupFile(u.FilePath)
 		if err != nil {
 			log.Println("backup err: ", err)
 			return errors.New("backup origin file failed")
 		}
-		// write new content to file
-		file, err := os.OpenFile(u.FilePath, os.O_TRUNC|os.O_RDWR|os.O_SYNC, 0644)
+	}
+	// write new content to file
+	file, err := os.OpenFile(u.FilePath, os.O_TRUNC|os.O_RDWR|os.O_SYNC, 0644)
+	if err != nil {
+		return errors.New("open file failed")
+	}
+	_, err = io.Copy(file, date)
+	file.Close()
+	// when write failed,will auto restore,when restore failed,something bad happen
+	if err != nil {
+		// restore
+		log.Printf("restore file! origin: %s,backup: %s", u.FilePath, bfp)
+		err := RestoreFile(u.FilePath, bfp)
 		if err != nil {
-			return errors.New("open file failed")
-		}
-		_, err = io.Copy(file, date)
-		file.Close()
-		// when write failed,will auto restore,when restore failed,something bad happen
-		if err != nil {
-			// restore
-			log.Printf("restore file! origin: %s,backup: %s", u.FilePath, bfp)
-			err := RestoreFile(u.FilePath, bfp)
-			if err != nil {
-				log.Println("restore backup file failed")
-				return errors.New("restore backup file failed,please check it out manually")
-			}
+			log.Println("restore backup file failed")
+			return errors.New("restore backup file failed,please check it out manually")
 		}
 	}
 
-	// pre hook
+
+	// post hook
 	err = u.execPostHook()
 	if err != nil {
 		// todo
