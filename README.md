@@ -20,7 +20,41 @@ Just a signle binary file (thanks golang!)
 
 >| Linux
 
+1, get the binary
 ```bash
+wget https://github.com/GoSome/fileUpdater/releases/download/v0.1/fileupdater-amd64-linux
+chmod +x fileupdater-amd64-linux
+```
+2, create simple config
+
+config.yaml
+```yaml
+
+server_port: "8080"
+server_host: "0.0.0.0"
+updaters:
+  - name: test1
+    path: /tmp/test.txt
+    backup: false
+    pre_hook:
+      mode: strict
+      commands:
+        - ls -lha
 
 ```
-## 
+
+3, just run
+
+```yaml
+./fileupdater-amd64-linux -config config.yaml
+```
+## UI
+
+![fileUpdater](./ui.png)
+
+
+## Hook Seq
+
+```bash
+PRE -> WRITE -> POST
+```
