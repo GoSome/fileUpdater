@@ -1,5 +1,5 @@
 # fileUpdater 
-<img align="right" width="159px" src="https://raw.githubusercontent.com/GoSome/fileUpdater/logo/fileupdater.png \>
+<img align="right" width="160px" src="https://raw.githubusercontent.com/GoSome/fileUpdater/logo/master/fileupdater.png">
 
 
 The file updater helps you use a web page with an editor to update your files and trigger the related command hook.
@@ -16,7 +16,11 @@ Just a signle binary file (thanks golang!)
 * low memory require
 
 
-## install
+## How to use it
 
+>| Linux
 
+```bash
+
+```
 ## 
