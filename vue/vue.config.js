@@ -19,5 +19,7 @@ module.exports = {
         changeOrigin: true
       }
     }
-  }
+  },
+  assetsDir: "statics"
+
 }
