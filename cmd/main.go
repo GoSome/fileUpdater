@@ -8,36 +8,31 @@
 package main
 
 import (
-	"encoding/json"
 	"flag"
-	"github.com/GoSome/fileUpdater/pkg/core"
+	"github.com/GoSome/fileUpdater/pkg/config"
+	"github.com/GoSome/fileUpdater/pkg/listeners"
 	"github.com/GoSome/fileUpdater/pkg/server"
 	"github.com/sevlyar/go-daemon"
-	"gopkg.in/yaml.v3"
 	"log"
-	"os"
-	"strings"
 )
 
-var configPath string
-var daemonZ bool
-var pidPath string
-var logFile string
-var config core.ServerConfigs
-
 func main() {
-	flag.StringVar(&configPath, "config", "config.json", "server config file path")
-	flag.BoolVar(&daemonZ, "d", false, "daemon")
-	flag.StringVar(&pidPath, "pid", "", "pid path work in daemon")
-	flag.StringVar(&logFile, "log", "", "log path work in daemon")
+	flag.StringVar(&config.Path, "config", "config.json", "server config file path")
+	flag.BoolVar(&config.DaemonZ, "d", false, "daemon")
+	flag.StringVar(&config.PidPath, "pid", "", "pid path work in daemon")
+	flag.StringVar(&config.LogFile, "log", "", "log path work in daemon")
 	flag.Parse()
 
-	ParseConfig()
-	if daemonZ {
+	config.Parse(true)
+
+	listeners.ListenSIGUSR2()
+	go config.Watch()
+
+	if config.DaemonZ {
 		cntxt := &daemon.Context{
-			PidFileName: pidPath,
+			PidFileName: config.PidPath,
 			PidFilePerm: 0644,
-			LogFileName: logFile,
+			LogFileName: config.LogFile,
 			LogFilePerm: 0640,
 			WorkDir:     "./",
 			Umask:       027,
@@ -57,37 +52,5 @@ func main() {
 		log.Print("daemon started")
 	}
 
-	server.Run(config)
-}
-
-func ParseConfig() {
-
-	if _, err := os.Stat(configPath); os.IsNotExist(err) {
-		log.Fatalf("config file \"%s\" not exist", configPath)
-	}
-
-	configFile, err := os.Open(configPath)
-	if err != nil {
-		log.Fatalf("open config file \"%s\" failed", configPath)
-		return
-	}
-	if strings.HasSuffix(configPath, ".json") {
-		//
-		err = json.NewDecoder(configFile).Decode(&config)
-		if err != nil {
-			// todo
-			panic(err)
-		}
-	} else if strings.HasSuffix(configPath, ".yaml") {
-		err := yaml.NewDecoder(configFile).Decode(&config)
-		if err != nil {
-			// todo
-			log.Println("err: ", err.Error())
-			panic(err)
-		}
-	} else {
-		panic("config file path must end with .json or .yaml")
-	}
-
-	configFile.Close()
+	server.Run(config.Config)
 }

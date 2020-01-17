@@ -25,7 +25,10 @@ func GetUpdater(c *gin.Context) {
 		return
 	}
 
-	u := Configs.GetUpdaterByName(name)
+	getConfig, _ := c.Get("cfg")
+	cfg := getConfig.(core.ServerConfigs)
+
+	u := cfg.GetUpdaterByName(name)
 	if u == nil {
 		c.String(404, "Not Found")
 		return

@@ -10,23 +10,22 @@ package server
 import (
 	rice "github.com/GeertJohan/go.rice"
 	"github.com/GoSome/fileUpdater/pkg/binding"
+	"github.com/GoSome/fileUpdater/pkg/config"
 	"github.com/GoSome/fileUpdater/pkg/core"
 	"github.com/gin-gonic/gin"
 	"log"
 )
 
-var configPath string
-var Configs core.ServerConfigs
 
-func Run(config core.ServerConfigs) {
-	Configs = config
-
+func Run(cfg core.ServerConfigs) {
 	app := gin.Default()
+	app.Use(config.Inject)
+
 	app.StaticFS("statics/", rice.MustFindBox("dist").HTTPBox())
 	app.GET("/api/updaters", GetUpdaters)
 	app.GET("/api/updater", GetUpdater)
 	app.GET("/api/content", GetContent)
 	app.POST("/api/content", UpdateFile)
 	app.NoRoute(binding.Index)
-	log.Fatal(app.Run(Configs.ServerHost + ":" + Configs.ServerPort))
+	log.Fatal(app.Run(cfg.ServerHost + ":" + cfg.ServerPort))
 }

@@ -16,7 +16,6 @@ import (
 )
 
 // server configFiles struct
-
 type ServerConfigs struct {
 	ServerHost   string        `json:"server_host" yaml:"server_host"`
 	ServerPort   string        `json:"server_port" yaml:"server_port"`
