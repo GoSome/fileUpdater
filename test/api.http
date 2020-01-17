@@ -1,0 +1,6 @@
+POST http://localhost:8080/api/exec
+Content-Type: application/json
+
+{"shell":  "pwd"}
+
+###

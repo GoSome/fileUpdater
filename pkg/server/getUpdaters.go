@@ -16,7 +16,7 @@ import (
 
 func GetUpdaters(c *gin.Context) {
 	updates := config.Config.FileUpdaters
-	log.Printf("updates: %s", updates)
+	log.Printf("updates: %v", updates)
 	c.Header("Content-Type", "application/json")
 	err := json.NewEncoder(c.Writer).Encode(&updates)
 	if err != nil {
