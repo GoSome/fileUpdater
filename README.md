@@ -1,5 +1,5 @@
 # fileUpdater 
-<img align="right" width="160px" src="https://raw.githubusercontent.com/GoSome/fileUpdater/logo/master/fileupdater.png">
+<img align="right" width="160px" src="https://raw.githubusercontent.com/GoSome/fileUpdater/master/logo/fileupdater.png">
 
 
 The file updater helps you use a web page with an editor to update your files and trigger the related command hook.
