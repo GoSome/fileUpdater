@@ -26,18 +26,10 @@ func UpdateFile(c *gin.Context) {
 	}
 
 	// TODO: get file content from FormFile
-	//mpf, err := c.FormFile("file")
-	//if err != nil {
-	//	todo
-	//log.Println("something bad")
-	//c.String(400, "%s", err.Error())
-	//return
-	//}
-	//f, err := mpf.Open()
 	f := strings.NewReader(req.Content)
 	if err := updaters.UpdateFile(f); err != nil {
 		//todo
-		log.Println("something bad when update file")
+		log.Printf("something bad when update file %s", err)
 		c.String(400, "%s", err.Error())
 		return
 	}

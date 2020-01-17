@@ -5,7 +5,7 @@
 @Time: 3:50 PM
 @ProjectName fileUpdater
 */
-package types
+package core
 
 import (
 	"io"

@@ -3,6 +3,7 @@ server_host: "127.0.0.1"
 updaters:
   - name: test1
     path: /tmp/test.txt
+    backup: false
     pre_hook:
       commands:
         - echo 2 >> /tmp/test2.txt
