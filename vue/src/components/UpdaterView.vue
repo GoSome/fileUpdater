@@ -4,6 +4,7 @@
     <template v-if="updater">
       <p>name: {{ updater.name }}</p>
       <p>path: {{ updater.path }}</p>
+      <pre class="p-3 bg-dark text-white rounded">{{ content }}</pre>
       <b-button variant="primary"
                 @click="$router.push({name: 'updaterEdit', query: {name: $route.query.name}})">
         Edit
@@ -35,7 +36,8 @@ export default {
   methods: {
     refresh() {
       this.$http.get('/api/updater?name=' + this.$route.query.name).then(r => {
-        this.updater = r.data
+        this.updater = r.data.updater
+        this.content = r.data.content
       }, r => {
         console.log(r)
         alert('Networking error')

@@ -9,7 +9,6 @@ package server
 
 import (
 	"github.com/gin-gonic/gin"
-	"io"
 )
 
 func GetContent(c *gin.Context) {
@@ -25,14 +24,21 @@ func GetContent(c *gin.Context) {
 		c.String(400, "no idea")
 		return
 	}
-	r, err := u.GetFileContent()
+	r, err := u.GetFile()
 	defer r.Close()
 	if err != nil {
 		c.String(400, "no idea")
 		return
 	}
-	io.Copy(c.Writer, r)
-	c.Status(200)
+	// TODO: javascript treats json file content as object incorrectly
+	content, err := u.GetFileContentAsString()
+	if err != nil {
+		c.String(500, err.Error())
+		return
+	}
+	c.JSON(200, map[string]string{
+		"content": content,
+	})
 
 }
 
