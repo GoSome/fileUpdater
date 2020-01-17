@@ -29,7 +29,7 @@ export default {
     return {
       initialized: false,
       content: '',
-      lang: 'json',
+      lang: 'text',
     }
   },
   created() {
