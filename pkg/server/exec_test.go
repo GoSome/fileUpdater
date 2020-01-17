@@ -27,7 +27,7 @@ func TestExec(t *testing.T) {
 
 		httpRes := httptest.NewRecorder()
 		c, _ := gin.CreateTestContext(httpRes)
-		c.Request, _ = http.NewRequest("POST", "/", &b)
+		c.Request, _ = http.NewRequest("POST", "/api/exec", &b)
 
 		t.Run(tt.name, func(t *testing.T) {
 			var res execRes
