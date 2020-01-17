@@ -8,56 +8,18 @@
 package server
 
 import (
-	"encoding/json"
-	"flag"
-	"fmt"
 	rice "github.com/GeertJohan/go.rice"
 	"github.com/GoSome/fileUpdater/pkg/binding"
 	"github.com/GoSome/fileUpdater/pkg/core"
 	"github.com/gin-gonic/gin"
-	"gopkg.in/yaml.v3"
 	"log"
-	"os"
-	"strings"
 )
 
 var configPath string
 var Configs core.ServerConfigs
 
-func Run() {
-	flag.StringVar(&configPath, "config", "config.json", "server config file path")
-	flag.Parse()
-
-	if _, err := os.Stat(configPath); os.IsNotExist(err) {
-		log.Fatalf("config file \"%s\" not exist", configPath)
-	}
-
-	configFile, err := os.Open(configPath)
-	if err != nil {
-		log.Fatalf("open config file \"%s\" failed", configPath)
-		return
-	}
-	if strings.HasSuffix(configPath, ".json") {
-		//
-		err = json.NewDecoder(configFile).Decode(&Configs)
-		if err != nil {
-			// todo
-			panic(err)
-		}
-	} else if strings.HasSuffix(configPath, ".yaml") {
-		log.Println("what")
-		err := yaml.NewDecoder(configFile).Decode(&Configs)
-		if err != nil {
-			// todo
-			log.Println("err: ", err.Error())
-			panic(err)
-		}
-	} else {
-		panic("config file path must end with .json or .yaml")
-	}
-
-	fmt.Println("configs:", Configs)
-	configFile.Close()
+func Run(config core.ServerConfigs) {
+	Configs = config
 
 	app := gin.Default()
 	app.StaticFS("statics/", rice.MustFindBox("dist").HTTPBox())
