@@ -1,13 +1,17 @@
-package types
+package core
 
 import (
 	"bytes"
 	"errors"
+	"gopkg.in/djherbis/times.v1"
 	"io"
 	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
+	"path/filepath"
+	"sort"
+	"strings"
 	"time"
 )
 
@@ -29,10 +33,12 @@ func (s ServerConfigs) GetUpdaterByName(name string) *FileUpdater {
 	return nil
 }
 
+
 type FileUpdater struct {
 	Name     string      `json:"name" yaml:"name"`
 	Type     string      `json:"type" yaml:"type"`
 	FilePath string      `json:"path" yaml:"path"`
+	Backup   bool         `json:"backup" yaml:"backup"`
 	PreHook  CommandHook `json:"pre_hook" yaml:"pre_hook"`
 	PostHook CommandHook `json:"post_hook" yaml:"post_hook"`
 }
@@ -69,29 +75,30 @@ func (u FileUpdater) UpdateFile(date io.Reader) error {
 	if err != nil {
 		return err
 	}
-
-	//Copy File for backup
-	//todo
-	bfp, err := BackupFile(u.FilePath, "")
-	if err != nil {
-		return errors.New("backup origin file failed")
-	}
-
-	//write new content to file
-	file, err := os.OpenFile(u.FilePath, os.O_TRUNC|os.O_RDWR|os.O_SYNC, 0644)
-	if err != nil {
-		return errors.New("open file failed")
-	}
-	_, err = io.Copy(file, date)
-	file.Close()
-	// when write failed,will auto restore,when restore failed,something bad happen
-	if err != nil {
-		// restore
-		log.Printf("restore file! origin: %s,backup: %s", u.FilePath, bfp)
-		err := RestoreFile(u.FilePath, bfp)
+	// Copy File for backup
+	// todo
+	if u.Backup {
+		bfp, err := BackupFile(u.FilePath)
 		if err != nil {
-			log.Println("restore backup file failed")
-			return errors.New("restore backup file failed,please check it out manually")
+			log.Println("backup err: ",err)
+			return errors.New("backup origin file failed")
+		}
+		// write new content to file
+		file, err := os.OpenFile(u.FilePath, os.O_TRUNC|os.O_RDWR|os.O_SYNC, 0644)
+		if err != nil {
+			return errors.New("open file failed")
+		}
+		_, err = io.Copy(file, date)
+		file.Close()
+		// when write failed,will auto restore,when restore failed,something bad happen
+		if err != nil {
+			// restore
+			log.Printf("restore file! origin: %s,backup: %s", u.FilePath, bfp)
+			err := RestoreFile(u.FilePath, bfp)
+			if err != nil {
+				log.Println("restore backup file failed")
+				return errors.New("restore backup file failed,please check it out manually")
+			}
 		}
 	}
 
@@ -99,6 +106,7 @@ func (u FileUpdater) UpdateFile(date io.Reader) error {
 	err = u.execPostHook()
 	if err != nil {
 		// todo
+		log.Println("run post hook failed ",err.Error())
 		return err
 	}
 	return nil
@@ -158,10 +166,9 @@ func BashExec(cmd string) (output string, err error) {
 	return stdout.String(), nil
 }
 
-func BackupFile(filePath, backupPath string) (newPath string, err error) {
-	if backupPath == "" {
-		backupPath = filePath + time.Now().Format("2006-01-02-15:04:05") + ".fub"
-	}
+func BackupFile(filePath string) (newPath string, err error) {
+	KeepBackup(filePath,2)
+	backupPath := genBackupFilePath(filePath)
 	originFile, err := os.Open(filePath)
 	defer originFile.Close()
 	if err != nil {
@@ -190,4 +197,107 @@ func RestoreFile(filePath, BackupPath string) error {
 	}
 	_, err = io.Copy(file, backcup)
 	return err
+}
+
+func KeepBackup(path string,num int)  {
+	absPath,err := filepath.Abs(path)
+	if err != nil {
+		log.Println("get  file abs path err: ",err.Error())
+		return
+	}
+	dir := filepath.Dir(absPath)
+	allFiles,err := filepath.Glob(dir + "/*")
+	if err != nil {
+		log.Println("get  files err: ",err.Error())
+		return
+	}
+	var backFilesPath []string
+	for _,f := range allFiles {
+		if isBackupFile(f,path) {
+			backFilesPath = append(backFilesPath,f)
+		}
+	}
+	needRemoveBack := FindOldFiles(backFilesPath,len(backFilesPath) - num)
+	log.Println("remove the old backup files: ",needRemoveBack)
+	for _,f:= range needRemoveBack {
+		os.Remove(f)
+	}
+}
+
+// return the most older files in given files
+func FindOldFiles(Paths []string, n int) (oldFiles []string) {
+	fsa := make(FilesAtime, len(Paths))
+	for k, f := range Paths {
+		t, err := times.Stat(f)
+		// if get files atime failed use now instead
+		if err != nil {
+			fsa[k] = fileAtime{
+				FilePath: f,
+				Atime:    time.Now(),
+			}
+			continue
+		}
+		fsa[k] = fileAtime{
+			FilePath: f,
+			Atime:    t.ChangeTime(),
+		}
+	}
+	// get the older
+	sort.Reverse(fsa)
+	if len(Paths) > n {
+		for i, f := range fsa {
+			if i < n {
+				oldFiles = append(oldFiles, f.FilePath)
+				continue
+			}
+			return
+		}
+	}
+	for _, f := range fsa {
+		oldFiles = append(oldFiles, f.FilePath)
+	}
+	return
+}
+
+
+// for sort
+type fileAtime struct {
+	FilePath string
+	Atime    time.Time
+}
+type FilesAtime []fileAtime
+
+func (f FilesAtime) Len() int {
+	return len(f)
+}
+func (f FilesAtime) Swap(i, j int) {
+	f[i], f[j] = f[j], f[i]
+}
+func (f FilesAtime) Less(i, j int) bool {
+	ti := f[i].Atime
+	tj := f[j].Atime
+
+	return ti.Before(tj)
+}
+
+//
+func genBackupFilePath(path string) string  {
+	absPath,err := filepath.Abs(path)
+	if err !=nil {
+		log.Println("err: ",err.Error())
+		return path
+	}
+	dir := filepath.Dir(absPath)
+
+	return  dir + backupFlag(path) + time.Now().Format("2006-01-02-15:04:05")
+}
+func backupFlag(path string ) string  {
+	return "/." + filepath.Base(path) +  "-fub" + "."
+}
+
+// is f1 an backup of f2
+func isBackupFile(f1, f2 string) bool  {
+	flag := backupFlag(f2)
+	res := strings.Contains(f1,flag)
+	return res
 }

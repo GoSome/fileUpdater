@@ -9,13 +9,13 @@ package server
 
 import (
 	"encoding/json"
-	"github.com/GoSome/fileUpdater/pkg/types"
+	"github.com/GoSome/fileUpdater/pkg/core"
 	"github.com/gin-gonic/gin"
 )
 
 type getUpdaterResponse struct {
-	Updater *types.FileUpdater `json:"updater"`
-	Content string             `json:"content"`
+	Updater *core.FileUpdater `json:"updater"`
+	Content string            `json:"content"`
 }
 
 func GetUpdater(c *gin.Context) {

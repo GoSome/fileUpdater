@@ -13,7 +13,7 @@ import (
 	"fmt"
 	rice "github.com/GeertJohan/go.rice"
 	"github.com/GoSome/fileUpdater/pkg/binding"
-	"github.com/GoSome/fileUpdater/pkg/types"
+	"github.com/GoSome/fileUpdater/pkg/core"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/yaml.v3"
 	"log"
@@ -22,7 +22,7 @@ import (
 )
 
 var configPath string
-var Configs types.ServerConfigs
+var Configs core.ServerConfigs
 
 func Run() {
 	flag.StringVar(&configPath, "config", "config.json", "server config file path")
@@ -35,8 +35,8 @@ func Run() {
 	configFile, err := os.Open(configPath)
 	if err != nil {
 		log.Fatalf("open config file \"%s\" failed", configPath)
+		return
 	}
-
 	if strings.HasSuffix(configPath, ".json") {
 		//
 		err = json.NewDecoder(configFile).Decode(&Configs)
@@ -57,9 +57,10 @@ func Run() {
 	}
 
 	fmt.Println("configs:", Configs)
-	app := gin.Default()
+	configFile.Close()
 
-	app.StaticFS("statics/",rice.MustFindBox("dist").HTTPBox())
+	app := gin.Default()
+	app.StaticFS("statics/", rice.MustFindBox("dist").HTTPBox())
 	app.GET("/api/updaters", GetUpdaters)
 	app.GET("/api/updater", GetUpdater)
 	app.GET("/api/content", GetContent)
