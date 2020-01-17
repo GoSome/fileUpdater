@@ -5,3 +5,6 @@ config.yaml
 
 temp
 tmp
+vue/node_modules/
+cmd/cmd
+bin

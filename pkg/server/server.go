@@ -11,6 +11,8 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	rice "github.com/GeertJohan/go.rice"
+	"github.com/GoSome/fileUpdater/pkg/binding"
 	"github.com/GoSome/fileUpdater/pkg/types"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/yaml.v3"
@@ -56,10 +58,12 @@ func Run() {
 
 	fmt.Println("configs:", Configs)
 	app := gin.Default()
+
+	app.StaticFS("statics/",rice.MustFindBox("dist").HTTPBox())
 	app.GET("/api/updaters", GetUpdaters)
 	app.GET("/api/updater", GetUpdater)
 	app.GET("/api/content", GetContent)
 	app.POST("/api/content", UpdateFile)
-
+	app.NoRoute(binding.Index)
 	log.Fatal(app.Run(Configs.ServerHost + ":" + Configs.ServerPort))
 }
