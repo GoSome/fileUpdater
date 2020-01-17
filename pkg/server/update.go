@@ -29,7 +29,7 @@ func UpdateFile(c *gin.Context) {
 	f := strings.NewReader(req.Content)
 	if err := updaters.UpdateFile(f); err != nil {
 		//todo
-		log.Printf("something bad when update file %s",err)
+		log.Printf("something bad when update file %s", err)
 		c.String(400, "%s", err.Error())
 		return
 	}

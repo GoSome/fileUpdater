@@ -10,7 +10,6 @@ package main
 import (
 	"encoding/json"
 	"flag"
-	"fmt"
 	"github.com/GoSome/fileUpdater/pkg/core"
 	"github.com/GoSome/fileUpdater/pkg/server"
 	"github.com/sevlyar/go-daemon"
@@ -28,9 +27,9 @@ var config core.ServerConfigs
 
 func main() {
 	flag.StringVar(&configPath, "config", "config.json", "server config file path")
-	flag.BoolVar(&daemonZ,"d",false,"daemon")
-	flag.StringVar(&pidPath,"pid","","pid path work in daemon")
-	flag.StringVar(&logFile,"log","","log path work in daemon")
+	flag.BoolVar(&daemonZ, "d", false, "daemon")
+	flag.StringVar(&pidPath, "pid", "", "pid path work in daemon")
+	flag.StringVar(&logFile, "log", "", "log path work in daemon")
 	flag.Parse()
 
 	ParseConfig()
@@ -61,8 +60,7 @@ func main() {
 	server.Run(config)
 }
 
-
-func ParseConfig()  {
+func ParseConfig() {
 
 	if _, err := os.Stat(configPath); os.IsNotExist(err) {
 		log.Fatalf("config file \"%s\" not exist", configPath)
