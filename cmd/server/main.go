@@ -7,10 +7,9 @@
 */
 package main
 
-import (
-	"github.com/GoSome/fileUpdater/pkg/server"
-)
+import "github.com/GoSome/fileUpdater/pkg/server"
 
 func main() {
+
 	server.Run()
 }

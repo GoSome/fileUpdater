@@ -9,13 +9,12 @@ package server
 
 import (
 	"encoding/json"
-	"github.com/GoSome/fileUpdater/pkg/config"
 	"github.com/gin-gonic/gin"
 	"log"
 )
 
 func GetUpdaters(c *gin.Context) {
-	updates := config.Configs.FileUpdaters
+	updates := Configs.FileUpdaters
 	log.Printf("updates: %s", updates)
 	c.Header("Content-Type", "application/json")
 	err := json.NewEncoder(c.Writer).Encode(&updates)
