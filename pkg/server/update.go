@@ -2,6 +2,7 @@ package server
 
 import (
 	"encoding/json"
+	"github.com/GoSome/fileUpdater/pkg/core"
 	"github.com/gin-gonic/gin"
 	"log"
 	"strings"
@@ -19,7 +20,11 @@ func UpdateFile(c *gin.Context) {
 		return
 	}
 
-	updaters := Configs.GetUpdaterByName(req.Name)
+	getConfig, _ := c.Get("cfg")
+	cfg := getConfig.(core.ServerConfigs)
+
+
+	updaters := cfg.GetUpdaterByName(req.Name)
 	if updaters == nil {
 		c.String(404, "Not Found")
 		return

@@ -4,6 +4,7 @@ go 1.13
 
 require (
 	github.com/GeertJohan/go.rice v1.0.0
+	github.com/fsnotify/fsnotify v1.4.7
 	github.com/gin-contrib/static v0.0.0-20191128031702-f81c604d8ac2 // indirect
 	github.com/gin-gonic/gin v1.5.0
 	github.com/go-bindata/go-bindata v3.1.2+incompatible // indirect
