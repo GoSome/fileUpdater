@@ -8,13 +8,13 @@ Just a signle binary file (thanks golang!)
 
 ## features
 * easy deploy (single binary file)
-* command hook
-* pre hook
-* post hook
+* pre command hook
+* post command hook
+* auto backup
 * daemon
-* update itself (todo)
+* update itself
 * low memory require
-
+* exec shell command
 
 ## How to use it
 
@@ -46,7 +46,7 @@ updaters:
 3, just run
 
 ```yaml
-./fileupdater-amd64-linux -config config.yaml
+./fileupdater-amd64-linux -i -config config.yaml
 ```
 ## UI
 

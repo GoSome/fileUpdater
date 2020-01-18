@@ -1,4 +1,4 @@
-server_port: "8080"
+server_port: "8090"
 server_host: "127.0.0.1"
 updaters:
   - name: test1
@@ -6,6 +6,6 @@ updaters:
     backup: false
     pre_hook:
       commands:
-        - echo 2 >> /tmp/test2.txt
+        - echo  `date` > /tmp/test2.txt
   - name: test2
     path: /tmp/test2.txt

@@ -54,7 +54,7 @@ func Parse(init bool) {
 	}
 
 	if IncludeSelf {
-		Config.FileUpdaters = append(Config.FileUpdaters, core.FileUpdater{Name: "Config", FilePath: Path})
+		Config.FileUpdaters = append(Config.FileUpdaters, core.FileUpdater{Name: "FileUpdaterSelfConfig", FilePath: Path})
 	}
 }
 
