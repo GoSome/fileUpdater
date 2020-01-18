@@ -19,14 +19,18 @@ import (
 func main() {
 	flag.StringVar(&config.Path, "config", "config.json", "server config file path")
 	flag.BoolVar(&config.DaemonZ, "d", false, "daemon")
+	flag.BoolVar(&config.IncludeSelf, "i", false, "include config file to updaters")
+	flag.BoolVar(&config.DisableHotReload, "disable-reload", false, "disable hot reload config file")
 	flag.StringVar(&config.PidPath, "pid", "", "pid path work in daemon")
 	flag.StringVar(&config.LogFile, "log", "", "log path work in daemon")
 	flag.Parse()
 
 	config.Parse(true)
 
-	listeners.ListenSIGUSR2()
-	go config.Watch()
+	if !config.DisableHotReload {
+		listeners.ListenSIGUSR2()
+		go config.Watch()
+	}
 
 	if config.DaemonZ {
 		cntxt := &daemon.Context{

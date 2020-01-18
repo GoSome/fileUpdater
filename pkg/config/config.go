@@ -16,6 +16,8 @@ var Config core.ServerConfigs
 var DaemonZ bool
 var PidPath string
 var LogFile string
+var IncludeSelf bool
+var DisableHotReload bool
 
 func Parse(init bool) {
 	logFunc := log.Printf
@@ -49,6 +51,10 @@ func Parse(init bool) {
 		}
 	default:
 		logFunc("config file path must end with .json or .yaml")
+	}
+
+	if IncludeSelf {
+		Config.FileUpdaters = append(Config.FileUpdaters, core.FileUpdater{Name: "Config", FilePath: Path})
 	}
 }
 
