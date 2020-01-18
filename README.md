@@ -22,7 +22,7 @@ Just a signle binary file (thanks golang!)
 
 1, get the binary
 ```bash
-wget https://github.com/GoSome/fileUpdater/releases/download/v0.1/fileupdater-amd64-linux
+wget https://github.com/GoSome/fileUpdater/releases/download/v0.2/fileupdater-amd64-linux
 chmod +x fileupdater-amd64-linux
 ```
 2, create simple config
