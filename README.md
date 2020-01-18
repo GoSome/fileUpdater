@@ -2,8 +2,8 @@
 <img align="right" width="160px" src="https://raw.githubusercontent.com/GoSome/fileUpdater/master/logo/fileupdater.png">
 
 
-The file updater helps you use a web page with an editor to update your files and trigger the related command hook.
-Just a signle binary file (thanks golang!)
+The file updater helps you use a web page with an editor to update your files and trigger the related command hooks.
+Just a single binary file (thanks golang!)
 
 
 ## features
@@ -20,12 +20,12 @@ Just a signle binary file (thanks golang!)
 
 >| Linux
 
-1, get the binary
+1. get the binary
 ```bash
 wget https://github.com/GoSome/fileUpdater/releases/download/v0.2/fileupdater-amd64-linux
 chmod +x fileupdater-amd64-linux
 ```
-2, create simple config
+2. create simple config
 
 config.yaml
 ```yaml
@@ -43,7 +43,7 @@ updaters:
 
 ```
 
-3, just run
+3. just run
 
 ```yaml
 ./fileupdater-amd64-linux -i -config config.yaml
