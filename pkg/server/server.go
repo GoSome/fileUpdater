@@ -26,6 +26,7 @@ func Run(cfg core.ServerConfigs) {
 	app.GET("/api/updater", GetUpdater)
 	app.GET("/api/content", GetContent)
 	app.POST("/api/content", UpdateFile)
+	app.POST("/api/exec", Exec)
 	app.NoRoute(binding.Index)
 	log.Fatal(app.Run(cfg.ServerHost + ":" + cfg.ServerPort))
 }
