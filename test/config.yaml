@@ -9,3 +9,12 @@ updaters:
         - echo  `date` > /tmp/test2.txt
   - name: test2
     path: /tmp/test2.txt
+processes:
+  - command: ping baidu.com
+    enable: true
+    log_path: ping.log
+  - command: ping qq.com
+    enable: true
+    log_path: pg.log
+  - command: fuck
+    enable: true
