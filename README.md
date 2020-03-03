@@ -10,12 +10,13 @@ Just a single binary file (thanks golang!)
 * easy deploy (single binary file)
 * pre command hook
 * post command hook
+* command exec timeout (todo)
 * auto backup
 * daemon
 * update itself
 * low memory require
 * exec shell command
-
+* tiny init (simple superviosr)(todo)
 ## How to use it
 
 >| Linux
