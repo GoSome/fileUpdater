@@ -1,0 +1,15 @@
+[Unit]
+Description=fileupdater
+After=network.target
+Wants=network.target
+
+[Service]
+
+LimitNOFILE=1000000
+ExecStart=/usr/local/sbin/fileupdater -config /etc/fileupdater/config.yaml
+KillMode=process
+Restart=on-failure
+RestartSec=50s
+
+[Install]
+WantedBy=multi-user.target
