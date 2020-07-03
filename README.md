@@ -17,6 +17,7 @@ Just a single binary file (thanks golang!)
 * low memory require
 * exec shell command
 * tiny init (simple superviosr)(todo)
+* basic auth (todo)
 ## How to use it
 
 >| Linux
