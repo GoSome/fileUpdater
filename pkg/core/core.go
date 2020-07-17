@@ -3,6 +3,7 @@ package core
 import (
 	"bytes"
 	"errors"
+	"github.com/GoSome/fileUpdater/pkg/process"
 	"gopkg.in/djherbis/times.v1"
 	"io"
 	"io/ioutil"
@@ -17,10 +18,11 @@ import (
 
 // server configFiles struct
 type ServerConfigs struct {
-	ServerHost   string        `json:"server_host" yaml:"server_host"`
-	ServerPort   string        `json:"server_port" yaml:"server_port"`
-	FileUpdaters []FileUpdater `json:"updaters" yaml:"updaters"`
-	IncludeSelf  bool          `json:"include_self"`
+	ServerHost   string            `json:"server_host" yaml:"server_host"`
+	ServerPort   string            `json:"server_port" yaml:"server_port"`
+	FileUpdaters []FileUpdater     `json:"updaters" yaml:"updaters"`
+	Processes    []process.Process `json:"processes" yaml:"processes"`
+	IncludeSelf  bool              `json:"include_self"`
 }
 
 func (s ServerConfigs) GetUpdaterByName(name string) *FileUpdater {
@@ -30,6 +32,15 @@ func (s ServerConfigs) GetUpdaterByName(name string) *FileUpdater {
 		}
 	}
 	return nil
+}
+func (s ServerConfigs) RunProcess()  {
+	for _,p := range s.Processes {
+		if p.Enable != true {
+			continue
+		}
+		log.Println("????",p)
+		p.Go()      //todo there is a very interesting feature
+	}
 }
 
 type FileUpdater struct {
@@ -102,7 +113,6 @@ func (u FileUpdater) UpdateFile(date io.Reader) error {
 			return errors.New("restore backup file failed,please check it out manually")
 		}
 	}
-
 
 	// post hook
 	err = u.execPostHook()

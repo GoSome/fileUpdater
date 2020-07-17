@@ -9,3 +9,4 @@ vue/node_modules/
 cmd/cmd
 bin
 pkg/binding/rice-box.go
+*.log

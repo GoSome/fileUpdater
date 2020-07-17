@@ -18,6 +18,7 @@ import (
 
 
 func Run(cfg core.ServerConfigs) {
+	cfg.RunProcess()
 	app := gin.Default()
 	app.Use(config.Inject)
 

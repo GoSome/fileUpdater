@@ -55,6 +55,5 @@ func main() {
 		log.Print("- - - - - - - - - - - - - - -")
 		log.Print("daemon started")
 	}
-
 	server.Run(config.Config)
 }
