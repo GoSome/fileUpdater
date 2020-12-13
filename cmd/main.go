@@ -14,6 +14,7 @@ import (
 	"github.com/GoSome/fileUpdater/pkg/server"
 	"github.com/sevlyar/go-daemon"
 	"log"
+	"os"
 )
 
 func main() {
@@ -23,6 +24,8 @@ func main() {
 	flag.BoolVar(&config.DisableHotReload, "disable-reload", false, "disable hot reload config file")
 	flag.StringVar(&config.PidPath, "pid", "", "pid path work in daemon")
 	flag.StringVar(&config.LogFile, "log", "", "log path work in daemon")
+	flag.StringVar(&config.SSHUser,"sshu",os.Getenv("USER"),"ssh user")
+	flag.StringVar(&config.SSHPasswd,"sshp","","ssh user pass")
 	flag.Parse()
 
 	config.Parse(true)

@@ -33,7 +33,8 @@ export default {
     this.term = new Terminal()
     this.term.open(terminalContainer)
     // open websocket
-    this.terminalSocket = new WebSocket('ws://127.0.0.1:8081/terminals')
+    let nurl = window.location.host
+    this.terminalSocket = new WebSocket('ws://' + nurl + '/terminals')
     this.terminalSocket.onopen = this.runRealTerminal
     this.terminalSocket.onclose = this.closeRealTerminal
     this.terminalSocket.onerror = this.errorRealTerminal

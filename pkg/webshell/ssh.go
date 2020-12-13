@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"fmt"
+	config2 "github.com/GoSome/fileUpdater/pkg/config"
 	"github.com/mitchellh/go-homedir"
 	"golang.org/x/crypto/ssh"
 	"io/ioutil"
@@ -16,12 +17,12 @@ import (
 func NewSshClient() (*ssh.Client, error) {
 	config := &ssh.ClientConfig{
 		Timeout:         time.Second * 5,
-		User:            "skipper",
+		User:            config2.SSHUser,
 		HostKeyCallback: ssh.InsecureIgnoreHostKey(), //这个可以， 但是不够安全
 		//HostKeyCallback: hostKeyCallBackFunc(h.Host),
 	}
 	//if h.Type == "password" {
-	config.Auth = []ssh.AuthMethod{ssh.Password("iskipper")}
+	config.Auth = []ssh.AuthMethod{ssh.Password(config2.SSHPasswd)}
 	//} else {
 	//	config.Auth = []ssh.AuthMethod{publicKeyAuthFunc(h.Key)}
 	//}

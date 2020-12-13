@@ -18,6 +18,8 @@ var PidPath string
 var LogFile string
 var IncludeSelf bool
 var DisableHotReload bool
+var SSHUser string
+var SSHPasswd string
 
 func Parse(init bool) {
 	logFunc := log.Printf
