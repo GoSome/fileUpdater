@@ -14,6 +14,17 @@
         <div class="sidebar-brand-text mx-3">FileUpdater</div>
       </router-link>
 
+      <!-- web shell -->
+<!--      <div>-->
+<!--        <a href="shell" target="_blank">WebShell</a>-->
+<!--      </div>-->
+      <!-- Sidebar - Brand -->
+      <router-link class="sidebar-brand d-flex align-items-center justify-content-center"
+                   :to="{name: 'WebSSH'}">
+        <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-laugh-wink"></i>
+        </div>
+        <div class="sidebar-brand-text mx-2">WebShell</div>
+      </router-link>
       <!-- Divider -->
       <hr class="sidebar-divider my-0">
 

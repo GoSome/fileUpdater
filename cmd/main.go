@@ -17,7 +17,7 @@ import (
 )
 
 func main() {
-	flag.StringVar(&config.Path, "config", "config.json", "server config file path")
+	flag.StringVar(&config.Path, "config", "", "server config file path")
 	flag.BoolVar(&config.DaemonZ, "d", false, "daemon")
 	flag.BoolVar(&config.IncludeSelf, "i", false, "include config file to updaters")
 	flag.BoolVar(&config.DisableHotReload, "disable-reload", false, "disable hot reload config file")

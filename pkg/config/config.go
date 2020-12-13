@@ -24,7 +24,16 @@ func Parse(init bool) {
 	if init {
 		logFunc = log.Fatalf
 	}
-	if _, err := os.Stat(Path); os.IsNotExist(err) {
+	if Path == "" {
+		defaultPath := "config.yaml"
+		log.Println("create default config, path: %s",defaultPath)
+		err := CreateDefaultConfig(defaultPath)
+		if err != nil {
+			log.Println("create default config failed",err)
+			return
+		}
+		Path = defaultPath
+	}else if _, err := os.Stat(Path); os.IsNotExist(err) {
 		logFunc("config file \"%s\" not exist", Path)
 		return
 	}
@@ -83,4 +92,21 @@ func Watch() {
 			}
 		}
 	}
+}
+
+
+func CreateDefaultConfig(path string)error  {
+	log.Println("fuck")
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		log.Println("default config not exist. auto create", path)
+		sf := core.NewDefaultConfig()
+		file ,err := os.OpenFile(path,os.O_CREATE|os.O_RDWR,0644)
+		if err != nil {
+			log.Println("create default config failed ",err)
+			return err
+		}
+		return yaml.NewEncoder(file).Encode(&sf)
+	}
+	log.Println("default config file already exist.will use it.")
+	return nil
 }

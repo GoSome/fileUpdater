@@ -14,7 +14,9 @@ npm install
 npm run build
 
 echo "move file for go binding data"
+rm -rf ../pkg/binding/dist/
 mkdir -pv ../pkg/binding/dist/
+
 mv -f dist/statics/{css,fonts,img,js} ../pkg/binding/dist/
 mv dist/{index.html,favicon.ico} ../pkg/binding/dist/
 

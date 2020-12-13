@@ -12,6 +12,7 @@ import (
 	"github.com/GoSome/fileUpdater/pkg/binding"
 	"github.com/GoSome/fileUpdater/pkg/config"
 	"github.com/GoSome/fileUpdater/pkg/core"
+	"github.com/GoSome/fileUpdater/pkg/webshell"
 	"github.com/gin-gonic/gin"
 	"log"
 )
@@ -20,14 +21,16 @@ import (
 func Run(cfg core.ServerConfigs) {
 	cfg.RunProcess()
 	app := gin.Default()
-	app.Use(config.Inject)
-
-	app.StaticFS("statics/", rice.MustFindBox("dist").HTTPBox())
+	app.Use(config.Inject,Cors())
+	if cfg.WithFrontEnd {
+		app.StaticFS("statics/", rice.MustFindBox("dist").HTTPBox())
+		app.NoRoute(binding.Index)
+	}
 	app.GET("/api/updaters", GetUpdaters)
 	app.GET("/api/updater", GetUpdater)
 	app.GET("/api/content", GetContent)
 	app.POST("/api/content", UpdateFile)
+	app.GET("/terminals",webshell.WsSsh)
 	app.POST("/api/exec", Exec)
-	app.NoRoute(binding.Index)
 	log.Fatal(app.Run(cfg.ServerHost + ":" + cfg.ServerPort))
 }

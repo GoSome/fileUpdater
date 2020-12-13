@@ -4,6 +4,7 @@ import Layout from './components/Layout.vue'
 import UpdaterView from './components/UpdaterView.vue'
 import UpdaterEdit from './components/UpdaterEdit.vue'
 import Dashboard from './components/Dashboard.vue'
+import WebSSH from "@/components/WebSSH";
 
 Vue.use(Router)
 
@@ -49,6 +50,11 @@ export default new Router({
           },
         },
       ],
+    },
+    {
+      path: "/shell",
+      name: "WebSSH",
+      component: WebSSH
     },
     {
       path: '/api*',

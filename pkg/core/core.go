@@ -16,6 +16,16 @@ import (
 	"time"
 )
 
+
+// new Default Config
+
+func NewDefaultConfig() *ServerConfigs {
+	return &ServerConfigs{
+		ServerHost:   "0.0.0.0",
+		ServerPort:   "8081",
+		IncludeSelf:  true,
+	}
+}
 // server configFiles struct
 type ServerConfigs struct {
 	ServerHost   string            `json:"server_host" yaml:"server_host"`
@@ -23,7 +33,10 @@ type ServerConfigs struct {
 	FileUpdaters []FileUpdater     `json:"updaters" yaml:"updaters"`
 	Processes    []process.Process `json:"processes" yaml:"processes"`
 	IncludeSelf  bool              `json:"include_self"`
+	WithFrontEnd bool               `json:"with_front_end" yaml:"with_front_end"`
 }
+
+
 
 func (s ServerConfigs) GetUpdaterByName(name string) *FileUpdater {
 	for k, v := range s.FileUpdaters {
