@@ -24,6 +24,7 @@ func NewDefaultConfig() *ServerConfigs {
 		ServerHost:   "0.0.0.0",
 		ServerPort:   "8081",
 		IncludeSelf:  true,
+		WithFrontEnd: true,
 	}
 }
 // server configFiles struct
