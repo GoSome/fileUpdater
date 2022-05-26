@@ -12,20 +12,22 @@
     "vue": "^2.6.10"
   },
   "devDependencies": {
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
     "@fortawesome/fontawesome-free": "^5.12.0",
-    "@vue/cli-plugin-babel": "^4.1.0",
-    "@vue/cli-plugin-eslint": "^4.1.0",
-    "@vue/cli-service": "^4.1.0",
+    "@vue/cli-plugin-babel": "^5.0.4",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-service": "^5.0.4",
     "babel-eslint": "^10.0.3",
     "bootstrap-vue": "^2.2.1",
     "compass-mixins": "^0.12.10",
-    "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^5.0.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-vue": "^8.0.3",
     "hover.css": "^2.3.2",
-    "node-sass": "^4.13.0",
-    "sass-loader": "^8.0.2",
+    "node-sass": "^7.0.1",
+    "sass-loader": "^13.0.0",
     "sass-resources-loader": "^2.0.1",
-    "startbootstrap-sb-admin-2": "^4.0.7",
+    "startbootstrap-sb-admin-2": "^4.1.4",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.1.4",
     "vue-template-compiler": "^2.6.10",
@@ -40,11 +42,9 @@
       "plugin:vue/essential",
       "eslint:recommended"
     ],
-    "rules": {
-      "no-console": "off"
-    },
+    "rules": {},
     "parserOptions": {
-      "parser": "babel-eslint"
+      "parser": "@babel/eslint-parser"
     }
   },
   "browserslist": [
