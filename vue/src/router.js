@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Layout from './components/Layout.vue'
+import MainLayout from './components/MainLayout.vue'
 import UpdaterView from './components/UpdaterView.vue'
 import UpdaterEdit from './components/UpdaterEdit.vue'
-import Dashboard from './components/Dashboard.vue'
+import MainPage from './components/MainPage.vue'
 
 Vue.use(Router)
 
@@ -19,15 +19,15 @@ export default new Router({
   routes: [
     {
       path: '',
-      component: Layout,
+      component: MainLayout,
       meta: {
         auth: true
       },
       children: [
         {
           path: '/',
-          name: 'dashboard',
-          component: Dashboard,
+          name: 'mainpage',
+          component: MainPage,
           meta: {
             title: 'Dashboard',
           },
@@ -57,7 +57,7 @@ export default new Router({
     },
     {
       path: '*',
-      component: () => import('./components/error/404.vue'),
+      component: () => import('./components/Error404NotFound.vue'),
       meta: {
         title: '页面未找到',
       },

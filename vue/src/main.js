@@ -3,14 +3,14 @@ import VueResource from 'vue-resource'
 import BootstrapVue from 'bootstrap-vue'
 
 import App from './App'
-import Block from './components/Block'
+import ContentBlock from './components/ContentBlock'
 import router from './router'
 
 Vue.router = router // Just for VueResource
 
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title ? to.meta.title :
-      (to.name ? to.name.charAt(0).toUpperCase() + to.name.slice(1) : 'Untitled')
+    (to.name ? to.name.charAt(0).toUpperCase() + to.name.slice(1) : 'Untitled')
   next()
 })
 
@@ -18,7 +18,7 @@ router.beforeEach((to, from, next) => {
 Vue.use(VueResource)
 Vue.use(BootstrapVue)
 
-Vue.component('block', Block)
+Vue.component('ContentBlock', ContentBlock)
 
 Vue.config.productionTip = false
 
