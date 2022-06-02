@@ -3,8 +3,9 @@ module github.com/GoSome/fileUpdater
 go 1.13
 
 require (
-	github.com/GeertJohan/go.rice v1.0.0
+	github.com/GeertJohan/go.rice v1.0.2
 	github.com/fsnotify/fsnotify v1.4.7
+	github.com/gin-contrib/cors v1.3.1 // indirect
 	github.com/gin-gonic/gin v1.5.0
 	github.com/kardianos/osext v0.0.0-20190222173326-2bc1f35cddc0 // indirect
 	github.com/sevlyar/go-daemon v0.1.5

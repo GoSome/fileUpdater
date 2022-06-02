@@ -9,11 +9,15 @@ package main
 
 import (
 	"flag"
+
 	"github.com/GoSome/fileUpdater/pkg/config"
 	"github.com/GoSome/fileUpdater/pkg/listeners"
+
 	"github.com/GoSome/fileUpdater/pkg/server"
-	"github.com/sevlyar/go-daemon"
+
 	"log"
+
+	"github.com/sevlyar/go-daemon"
 )
 
 func main() {

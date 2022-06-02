@@ -3,8 +3,6 @@ package core
 import (
 	"bytes"
 	"errors"
-	"github.com/GoSome/fileUpdater/pkg/process"
-	"gopkg.in/djherbis/times.v1"
 	"io"
 	"io/ioutil"
 	"log"
@@ -14,6 +12,9 @@ import (
 	"sort"
 	"strings"
 	"time"
+
+	"github.com/GoSome/fileUpdater/pkg/process"
+	"gopkg.in/djherbis/times.v1"
 )
 
 // server configFiles struct
@@ -23,6 +24,7 @@ type ServerConfigs struct {
 	FileUpdaters []FileUpdater     `json:"updaters" yaml:"updaters"`
 	Processes    []process.Process `json:"processes" yaml:"processes"`
 	IncludeSelf  bool              `json:"include_self"`
+	DisableUI    bool              `json:"disable_ui"`
 }
 
 func (s ServerConfigs) GetUpdaterByName(name string) *FileUpdater {
@@ -33,13 +35,13 @@ func (s ServerConfigs) GetUpdaterByName(name string) *FileUpdater {
 	}
 	return nil
 }
-func (s ServerConfigs) RunProcess()  {
-	for _,p := range s.Processes {
+func (s ServerConfigs) RunProcess() {
+	for _, p := range s.Processes {
 		if p.Enable != true {
 			continue
 		}
-		log.Println("????",p)
-		p.Go()      //todo there is a very interesting feature
+		log.Println("????", p)
+		p.Go() //todo there is a very interesting feature
 	}
 }
 
