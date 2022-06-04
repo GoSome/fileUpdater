@@ -23,7 +23,7 @@ func Run(cfg core.ServerConfigs) {
 	app := gin.Default()
 	app.Use(config.Inject)
 	app.Use(cors.New(cors.Config{
-		AllowOrigins: []string{"*"},
+		AllowOrigins: []string{"http://localhost", "http://localhost:3000"},
 		AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 	}))
 	app.GET("/api/updaters", GetUpdaters)
