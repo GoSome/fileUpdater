@@ -1,0 +1,17 @@
+server_port: "8090"
+server_host: "0.0.0.0"
+disable_ui: true
+include_self: true
+updaters:
+  - name: test1
+    path: /tmp/test.txt
+    backup: false
+    pre_hook:
+      commands:
+        - echo  `date` > /tmp/test.txt
+  - name: test2
+    path: /tmp/test2.txt
+    backup: false
+    pre_hook:
+      commands:
+        - echo  `date` > /tmp/test2.txt
