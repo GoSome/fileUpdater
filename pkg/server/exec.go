@@ -4,9 +4,10 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"os/exec"
+
+	"github.com/gin-gonic/gin"
 )
 
 type execReq struct {
@@ -19,7 +20,7 @@ type execRes struct {
 	Stderr   string `json:"stderr"`
 }
 
-func Exec(c *gin.Context) {
+func (a *App) Exec(c *gin.Context) {
 	var req execReq
 	if err := json.NewDecoder(c.Request.Body).Decode(&req); err != nil {
 		c.String(http.StatusBadRequest, "Invalid body format")

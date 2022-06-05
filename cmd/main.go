@@ -8,17 +8,19 @@
 package main
 
 import (
+	"embed"
+	_ "embed"
 	"flag"
+	"log"
 
 	"github.com/GoSome/fileUpdater/pkg/config"
 	"github.com/GoSome/fileUpdater/pkg/listeners"
-
 	"github.com/GoSome/fileUpdater/pkg/server"
-
-	"log"
-
 	"github.com/sevlyar/go-daemon"
 )
+
+//go:embed build/*
+var uiContent embed.FS
 
 func main() {
 	flag.StringVar(&config.Path, "config", "config.json", "server config file path")
@@ -59,5 +61,6 @@ func main() {
 		log.Print("- - - - - - - - - - - - - - -")
 		log.Print("daemon started")
 	}
+	config.Config.SetHttpData(uiContent)
 	server.Run(config.Config)
 }

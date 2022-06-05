@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 
 const axios = require("axios");
 
-const GetAllUpdatersURl = "http://192.168.2.5:8090/api/updaters";
+const GetAllUpdatersURl = "/api/updaters";
 
 export const DashboardSidebar = props => {
   const { open, onClose } = props;

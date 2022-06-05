@@ -2,6 +2,7 @@ package core
 
 import (
 	"bytes"
+	"embed"
 	"errors"
 	"io"
 	"io/ioutil"
@@ -25,6 +26,11 @@ type ServerConfigs struct {
 	Processes    []process.Process `json:"processes" yaml:"processes"`
 	IncludeSelf  bool              `json:"include_self"`
 	DisableUI    bool              `json:"disable_ui"`
+	HttpData     embed.FS          `json:"-"  yaml:"-"`
+}
+
+func (s *ServerConfigs) SetHttpData(data embed.FS) {
+	s.HttpData = data
 }
 
 func (s ServerConfigs) GetUpdaterByName(name string) *FileUpdater {

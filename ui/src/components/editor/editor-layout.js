@@ -47,7 +47,7 @@ export const EditorMain = props => {
 
     const j = JSON.stringify({ name: name, content: content });
     axios
-      .post("http://192.168.2.5:8090/api/content", j)
+      .post("/api/content", j)
       .then(function (response) {
         if (response.status === 200) {
           setAlertContent("saved");

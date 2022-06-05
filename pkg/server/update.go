@@ -2,10 +2,11 @@ package server
 
 import (
 	"encoding/json"
-	"github.com/GoSome/fileUpdater/pkg/core"
-	"github.com/gin-gonic/gin"
 	"log"
 	"strings"
+
+	"github.com/GoSome/fileUpdater/pkg/core"
+	"github.com/gin-gonic/gin"
 )
 
 type UpdateContentRequest struct {
@@ -13,7 +14,7 @@ type UpdateContentRequest struct {
 	Content string `json:"content"`
 }
 
-func UpdateFile(c *gin.Context) {
+func (a *App) UpdateFile(c *gin.Context) {
 	var req UpdateContentRequest
 	if err := json.NewDecoder(c.Request.Body).Decode(&req); err != nil {
 		c.String(400, "Unprocessable Data")
@@ -22,7 +23,6 @@ func UpdateFile(c *gin.Context) {
 
 	getConfig, _ := c.Get("cfg")
 	cfg := getConfig.(core.ServerConfigs)
-
 
 	updaters := cfg.GetUpdaterByName(req.Name)
 	if updaters == nil {

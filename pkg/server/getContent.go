@@ -12,7 +12,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GetContent(c *gin.Context) {
+func (a *App) GetContent(c *gin.Context) {
 	name := c.Query("name")
 	if name == "" {
 		// todo

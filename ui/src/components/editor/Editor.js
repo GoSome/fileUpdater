@@ -14,23 +14,21 @@ function MyCodeEditor(props) {
   const language = useSelector(state => state.updater.language);
   const content = useSelector(state => state.updater.content);
 
+
   useEffect(() => {
-    axios
-      .get("http://192.168.2.5:8090/api/content", {
-        params: {
-          name: fileName,
-        },
-      })
-      .then(function (response) {
-        dispatch(setContent(response.data.content));
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-      .then(function () {
-        // always executed
-      });
-  }, [fileName]);
+    async function getContent() {
+      try {
+        const res = await axios.get("/api/content", {
+          params: { name: fileName },
+        });
+        const { content } = await res.data;
+        dispatch(setContent(content));
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getContent();
+  }, [fileName, dispatch]);
 
   return (
     <div>
@@ -43,8 +41,9 @@ function MyCodeEditor(props) {
         padding={15}
         disabled={props.disabled}
         style={{
-          fontSize: 14,
-          backgroundColor: "#f5f5f5",
+          fontSize: 16,
+          backgroundColor: "#111827",
+          color: "white",
           fontFamily:
             "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
         }}

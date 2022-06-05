@@ -2,13 +2,14 @@ package config
 
 import (
 	"encoding/json"
+	"log"
+	"os"
+	"path"
+
 	"github.com/GoSome/fileUpdater/pkg/core"
 	"github.com/fsnotify/fsnotify"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/yaml.v3"
-	"log"
-	"os"
-	"path"
 )
 
 var Path string
@@ -54,7 +55,7 @@ func Parse(init bool) {
 	}
 
 	if IncludeSelf {
-		Config.FileUpdaters = append(Config.FileUpdaters, core.FileUpdater{Name: "FileUpdaterSelfConfig", FilePath: Path})
+		Config.FileUpdaters = append(Config.FileUpdaters, core.FileUpdater{Name: "selfConfig", FilePath: Path})
 	}
 }
 

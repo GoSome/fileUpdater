@@ -9,6 +9,7 @@ package server
 
 import (
 	"encoding/json"
+
 	"github.com/GoSome/fileUpdater/pkg/core"
 	"github.com/gin-gonic/gin"
 )
@@ -18,7 +19,7 @@ type getUpdaterResponse struct {
 	Content string            `json:"content"`
 }
 
-func GetUpdater(c *gin.Context) {
+func (a *App) GetUpdater(c *gin.Context) {
 	name := c.Query("name")
 	if name == "" {
 		c.String(404, "Not Found")
