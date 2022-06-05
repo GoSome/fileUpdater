@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   value: 0,
@@ -6,41 +6,52 @@ const initialState = {
   name: "",
   language: "plaintext",
   filePath: "",
-}
+  reFlash: 0,
+};
 
 export const updaterSlice = createSlice({
-  name: 'updater',
+  name: "updater",
   initialState,
   reducers: {
-    increment: (state) => {
+    increment: state => {
       // Redux Toolkit allows us to write "mutating" logic in reducers. It
       // doesn't actually mutate the state because it uses the Immer library,
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
-      state.value += 1
+      state.value += 1;
     },
-    decrement: (state) => {
-      state.value -= 1
+    decrement: state => {
+      state.value -= 1;
     },
-    setContent: (state,action) => {
-        state.content = action.payload ;
+    setContent: (state, action) => {
+      state.content = action.payload;
     },
-    setName: (state,action) => {
-        state.name = action.payload
+    setName: (state, action) => {
+      state.name = action.payload;
     },
-    setFilePath: (state,action) => {
-      state.filePath = action.payload
-  },
-    setLanguage: (state,action) => {
-      state.language = action.payload
-  },
+    setFilePath: (state, action) => {
+      state.filePath = action.payload;
+    },
+    setLanguage: (state, action) => {
+      state.language = action.payload;
+    },
     incrementByAmount: (state, action) => {
-      state.value += action.payload
+      state.value += action.payload;
+    },
+    setReFlash: state => {
+      state.reFlash += 1;
     },
   },
-})
+});
 
 // Action creators are generated for each case reducer function
-export const { setLanguage,setContent,setName,setFilePath } = updaterSlice.actions
+export const {
+  increment,
+  setLanguage,
+  setContent,
+  setName,
+  setFilePath,
+  setReFlash,
+} = updaterSlice.actions;
 
-export default updaterSlice.reducer
+export default updaterSlice.reducer;

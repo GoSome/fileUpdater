@@ -1,5 +1,6 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import "@uiw/react-textarea-code-editor/dist.css";
 //redux
 import { useDispatch, useSelector } from "react-redux";
 import { setContent } from "../../updaters/updaterSlice";
@@ -9,7 +10,7 @@ const axios = require("axios").default;
 
 function MyCodeEditor(props) {
   const dispatch = useDispatch();
-  const name = useSelector(state => state.updater.name);
+  const fileName = useSelector(state => state.updater.name);
   const language = useSelector(state => state.updater.language);
   const content = useSelector(state => state.updater.content);
 
@@ -17,11 +18,10 @@ function MyCodeEditor(props) {
     axios
       .get("http://192.168.2.5:8090/api/content", {
         params: {
-          name: name,
+          name: fileName,
         },
       })
       .then(function (response) {
-        console.log(name, response.data.content);
         dispatch(setContent(response.data.content));
       })
       .catch(function (error) {
@@ -30,7 +30,7 @@ function MyCodeEditor(props) {
       .then(function () {
         // always executed
       });
-  }, [name]);
+  }, [fileName]);
 
   return (
     <div>

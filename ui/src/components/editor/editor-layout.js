@@ -7,16 +7,15 @@ import {
   InputLabel,
   NativeSelect,
   Snackbar,
-  MuiAlert,
   Alert,
 } from "@mui/material";
 
 import FormControl from "@mui/material/FormControl";
 import MyCodeEditor from "./Editor";
 import { useSelector, useDispatch } from "react-redux";
-import { setLanguage } from "../../updaters/updaterSlice";
-
+import { setLanguage, setReFlash } from "../../updaters/updaterSlice";
 import { useState } from "react";
+
 const axios = require("axios").default;
 
 const EditorLanguages = ["plaintext", "ini", "yaml", "json"];
@@ -50,11 +49,11 @@ export const EditorMain = props => {
     axios
       .post("http://192.168.2.5:8090/api/content", j)
       .then(function (response) {
-        console.log(name, response.status);
         if (response.status === 200) {
           setAlertContent("saved");
           setLevel("success");
           RaiseAlert();
+          dispatch(setReFlash());
         } else {
           setAlertContent("save file failed! status:" + response.status);
           setLevel("error");
@@ -74,7 +73,16 @@ export const EditorMain = props => {
   return (
     <form {...props}>
       <Card>
-        <CardHeader subheader={filePath} title={name} />
+        <CardHeader
+          subheader={filePath}
+          title={name}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            fontSize: "3rem",
+            p: 1,
+          }}
+        />
         <Divider />
         <Box
           sx={{

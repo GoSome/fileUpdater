@@ -1,20 +1,14 @@
 import { useEffect, useState } from "react";
 // import { useRouter } from "next/router";
 import PropTypes from "prop-types";
-import {
-  Box,
-  Button,
-  Divider,
-  Drawer,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
+import { Box, Divider, Drawer, Typography, useMediaQuery } from "@mui/material";
 import { NavItem } from "./nav-item";
 import ArticleIcon from "@mui/icons-material/Article";
+import { useSelector } from "react-redux";
+
 const axios = require("axios");
 
 const GetAllUpdatersURl = "http://192.168.2.5:8090/api/updaters";
-const UpdateFileURl = "http://192.168.2.5:8090/api/content";
 
 export const DashboardSidebar = props => {
   const { open, onClose } = props;
@@ -24,27 +18,24 @@ export const DashboardSidebar = props => {
     noSsr: false,
   });
   const [updaters, setUpdaters] = useState([]);
+  const value = useSelector(state => state.updater.value);
+  const reFlash = useSelector(state => state.updater.reFlash);
 
   useEffect(() => {
     axios.get(GetAllUpdatersURl).then(function (response) {
-      console.log("get all updaters: ", response.data);
       setUpdaters(response.data);
     });
-  }, []);
+  }, [reFlash]);
 
-  // useEffect(
-  //   () => {
-  //     if (!router.isReady) {
-  //       return;
-  //     }
-
-  //     if (open) {
-  //       onClose?.();
-  //     }
-  //   },
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   [router.asPath]
-  // );
+  useEffect(
+    () => {
+      if (!lgUp) {
+        onClose();
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [value]
+  );
 
   const content = (
     <>
