@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+set -e
 echo "go get"
 go get -v ./...
 
@@ -16,7 +17,7 @@ mv build ../cmd
 echo "build server"
 cd ../cmd
 GOOS=darwin GOARCH=amd64 go build -o ../bin/fileupdater-amd64-darwin
-
+GOOS=darwin GOARCH=arm64 go build -o ../bin/fileupdater-arm64-darwin
 echo "clean statics"
 
 rm -rf build

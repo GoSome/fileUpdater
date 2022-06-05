@@ -1,7 +1,6 @@
 server_port: "8090"
 server_host: "0.0.0.0"
 disable_ui: false
-include_self: true
 updaters:
   - name: test1
     path: /tmp/test.txt
