@@ -12,7 +12,7 @@
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
     "@uiw/react-textarea-code-editor": "^2.0.2",
-    "axios": "^0.27.2",
+    "axios": "^0.28.0",
     "http-proxy-middleware": "^2.0.6",
     "i": "^0.3.7",
     "npm": "^8.12.1",
