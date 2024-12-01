@@ -7,7 +7,7 @@ require (
 	github.com/gin-gonic/gin v1.7.0
 	github.com/sevlyar/go-daemon v0.1.5
 	gopkg.in/djherbis/times.v1 v1.2.0
-	gopkg.in/yaml.v3 v3.0.0-20191120175047-4206685974f2
+	gopkg.in/yaml.v3 v3.0.0
 )
 
 require (
